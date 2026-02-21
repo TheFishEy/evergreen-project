@@ -3,4 +3,13 @@ Evergreen Project: Computer Aided Farming, a Socially Responsible Computing
 
 | Name | Email |
 |-----------|-----------|
-|patricksnowah@gmail.com | Juan Ramirez |
+| Patrick Hung | patrickhung@cpp.edu |
+| Juan Ramirez |  |
+
+##Member | Contributions
+
+##Features
+
+##Video Demo
+
+##Spreadsheet
