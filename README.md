@@ -6,10 +6,12 @@ Evergreen Project: Computer Aided Farming, a Socially Responsible Computing
 | Patrick Hung | patrickhung@cpp.edu |
 | Juan Ramirez |  |
 
-##Member | Contributions
+| Member | Contributions |
+|--------|---------------|
+| Patrick Hung | Project Proposal |
+| Juan Ramirez | Project Proposal |
+## Features
 
-##Features
+## Video Demo
 
-##Video Demo
-
-##Spreadsheet
+## Spreadsheet
