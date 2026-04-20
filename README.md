@@ -22,6 +22,6 @@ Member | Contributions
 ## Video Demo
 
 
-[![Watch the demo](https://img.youtube.com/vi/abc123XYZ/0.jpg)](https://www.youtube.com/watch?v=abc123XYZ)
+[![Watch the demo](https://img.youtube.com/vi/kVMYJqm7mv8/0.jpg)](https://youtu.be/kVMYJqm7mv8)
 
 ## Spreadsheet
