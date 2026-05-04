@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seed Box Viewer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #e8f5e9, #d0f0d8, #c8e6c9);
+            color: #1d1d1f;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 48px 24px 72px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0 0 28px;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin: 0 0 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.75); /* transparency */
+            backdrop-filter: blur(12px);           /* glass blur */
+            -webkit-backdrop-filter: blur(12px);   /* Safari support */
+
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .seed-title {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+        }
+
+        .info-row {
+            margin-bottom: 18px;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .label {
+            font-weight: 600;
+            color: #6e6e73;
+            margin-right: 6px;
+        }
+
+        .count {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111111;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            border-radius: 999px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .primary-btn {
+            background: #2e7d32; /* green accent */
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: #256628;
+        }
+
+        .secondary-btn {
+            background: rgba(255,255,255,0.6);
+            color: #1d1d1f;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .secondary-btn:hover {
+            background: rgba(255,255,255,0.9);
+        }
+                .message {
+                    margin-top: 8px;
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: #2d6a4f;
+
+                    opacity: 0;
+                    transform: translateY(5px);
+                    transition: all 0.25s ease;
+                }
+
+                .message.show {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+
+        .care-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .care-item {
+            font-size: 17px;
+            line-height: 1.5;
+            color: #1d1d1f;
+        }
+
+        .care-item strong {
+            color: #6e6e73;
+            font-weight: 600;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 32px 16px 48px;
+            }
+
+            h1 {
+                font-size: 38px;
+            }
+
+            .seed-title {
+                font-size: 28px;
+            }
+
+            .card {
+                padding: 24px;
+                border-radius: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Seed Box Info</h1>
+
+        <div class="card">
+            <div id="seedName" class="seed-title">Loading...</div>
+
+            <div class="info-row">
+                <span class="label">Box</span>
+                <span id="boxLabel"></span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Packages Left</span>
+                <span id="packageCount" class="count"></span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Notes</span>
+                <span id="notes"></span>
+            </div>
+
+            <div class="button-row">
+                <button class="secondary-btn" onclick="addOne()">Add One</button>
+                <button class="primary-btn" onclick="takeOne()">Take One</button>
+            </div>
+
+            <p id="message" class="message"></p>
+        </div>
+
+        <div class="card">
+            <h2>Care Instructions</h2>
+
+            <div class="care-grid">
+                <div class="care-item"><strong>Description:</strong> <span id="description"></span></div>
+                <div class="care-item"><strong>Planting Depth:</strong> <span id="plantingDepth"></span></div>
+                <div class="care-item"><strong>Sunlight:</strong> <span id="sunlight"></span></div>
+                <div class="care-item"><strong>Watering:</strong> <span id="watering"></span></div>
+                <div class="care-item"><strong>Spacing:</strong> <span id="spacing"></span></div>
+                <div class="care-item"><strong>Days to Germinate:</strong> <span id="daysToGerminate"></span></div>
+                <div class="care-item"><strong>Days to Harvest:</strong> <span id="daysToHarvest"></span></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const boxLabel = params.get("box");
+
+        if (!boxLabel) {
+            document.body.innerHTML = "<h1>Missing box label in URL.</h1>";
+            throw new Error("Missing box label.");
+        }
+
+        async function loadSeedBox() {
+            const response = await fetch(`/api/seed-boxes/${boxLabel}`);
+            const data = await response.json();
+
+            document.getElementById("seedName").textContent = data.seedType.name;
+            document.getElementById("boxLabel").textContent = data.boxLabel;
+            document.getElementById("packageCount").textContent = data.packageCount;
+            document.getElementById("notes").textContent = data.notes;
+
+            document.getElementById("description").textContent = data.seedType.description;
+            document.getElementById("plantingDepth").textContent = data.seedType.plantingDepth;
+            document.getElementById("sunlight").textContent = data.seedType.sunlight;
+            document.getElementById("watering").textContent = data.seedType.watering;
+            document.getElementById("spacing").textContent = data.seedType.spacing;
+            document.getElementById("daysToGerminate").textContent = data.seedType.daysToGerminate;
+            document.getElementById("daysToHarvest").textContent = data.seedType.daysToHarvest;
+        }
+
+        async function takeOne() {
+            const response = await fetch(`/api/seed-boxes/${boxLabel}/take-one`, {
+                method: "POST"
+            });
+
+            if (!response.ok) {
+                document.getElementById("message").textContent = "Could not take one package.";
+                return;
+            }
+
+            const data = await response.json();
+            document.getElementById("packageCount").textContent = data.packageCount;
+            document.getElementById("message").textContent = "Inventory updated successfully.";
+        }
+
+        loadSeedBox();
+
+        async function addOne() {
+            const response = await fetch(`/api/seed-boxes/${boxLabel}/add-one`, {
+                method: "POST"
+            });
+
+            if (!response.ok) {
+                document.getElementById("message").textContent = "Could not add one package.";
+                return;
+            }
+
+            const data = await response.json();
+            document.getElementById("packageCount").textContent = data.packageCount;
+            const messageEl = document.getElementById("message");
+
+            messageEl.textContent = "Package added successfully.";
+
+            // restart animation
+            messageEl.classList.remove("show");
+            void messageEl.offsetWidth; // forces reflow (resets animation)
+            messageEl.classList.add("show");
+        }
+    </script>
+
+</body>
+</html>
